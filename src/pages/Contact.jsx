@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { sendContactForm } from "../services/contactService";
 
+import InputField from "../components/InputField";
+import TextAreaField from "../components/TextAreaField";
+import {Button} from "../components/Button";
+
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -11,6 +15,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // 🔁 Handle input changes (single source of truth)
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -20,6 +25,7 @@ export default function Contact() {
     }));
   }
 
+  // 🧠 Validation engine
   function validateForm() {
     const newErrors = {};
 
@@ -40,9 +46,10 @@ export default function Contact() {
     return newErrors;
   }
 
+  // 🚀 Submit handler
   async function handleSubmit(e) {
     e.preventDefault();
-
+ console.log("SUBMIT FIRED");
     const validationErrors = validateForm();
     setErrors(validationErrors);
 
@@ -85,95 +92,63 @@ export default function Contact() {
     form.message.trim();
 
   return (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gray-50">
 
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-lg bg-white shadow-xl rounded-2xl p-8 space-y-5 border border-gray-100"
-    >
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-lg p-8 space-y-5 bg-white shadow-xl rounded-2xl"
+      >
 
-      {/* TITLE */}
-      <div className="text-center mb-2">
-        <h2 className="text-3xl font-bold text-gray-800">
-          Contact Us
-        </h2>
-        <p className="text-gray-500 text-sm mt-1">
-          We’ll get back to you as soon as possible
-        </p>
-      </div>
+        {/* HEADER */}
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-800">
+            Contact Us
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            We’ll get back to you soon
+          </p>
+        </div>
 
-      {/* NAME */}
-      <div>
-        <input
+        {/* INPUTS */}
+        <InputField
+          label="Name"
           name="name"
           value={form.name}
           onChange={handleChange}
-          placeholder="Your Name"
-          className={`w-full px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 ${
-            errors.name
-              ? "border-red-400 focus:ring-red-200"
-              : "border-gray-200 focus:ring-indigo-200 focus:border-indigo-500"
-          }`}
+          placeholder="Enter your name"
+          error={errors.name}
         />
-        {errors.name && (
-          <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-        )}
-      </div>
 
-      {/* EMAIL */}
-      <div>
-        <input
+        <InputField
+          label="Email"
           name="email"
+          type="email"
           value={form.email}
           onChange={handleChange}
-          placeholder="Your Email"
-          className={`w-full px-4 py-3 rounded-xl border transition focus:outline-none focus:ring-2 ${
-            errors.email
-              ? "border-red-400 focus:ring-red-200"
-              : "border-gray-200 focus:ring-indigo-200 focus:border-indigo-500"
-          }`}
+          placeholder="Enter your email"
+          error={errors.email}
         />
-        {errors.email && (
-          <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-        )}
-      </div>
 
-      {/* MESSAGE */}
-      <div>
-        <textarea
+        <TextAreaField
+          label="Message"
           name="message"
           value={form.message}
           onChange={handleChange}
-          placeholder="Your Message"
-          rows="5"
-          className={`w-full px-4 py-3 rounded-xl border transition resize-none focus:outline-none focus:ring-2 ${
-            errors.message
-              ? "border-red-400 focus:ring-red-200"
-              : "border-gray-200 focus:ring-indigo-200 focus:border-indigo-500"
-          }`}
+          placeholder="Write your message..."
+          error={errors.message}
         />
-        {errors.message && (
-          <p className="text-red-500 text-sm mt-1">{errors.message}</p>
-        )}
-      </div>
 
-      {/* BUTTON */}
-      <button
-        type="submit"
-        disabled={!isFormValid || loading}
-        className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${
-          loading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98]"
-        } text-white`}
-      >
-        {loading && (
-          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-        )}
+        {/* BUTTON */}
+        <Button
+          type="submit"
+          loading={loading}
+          disabled={!isFormValid}
+        >
+          Send Message
+        </Button>
 
-        {loading ? "Sending..." : "Send Message"}
-      </button>
+      </form>
 
-    </form>
-  </div>
-);}
+    </div>
+  );
+}

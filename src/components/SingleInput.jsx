@@ -1,17 +1,12 @@
-import { useState } from "react";
-
-function SingleInput() {
-  const [name, setName] = useState("");
-
+function SingleInput({ label, value, onChange }) {
   return (
     <div>
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Type something..."
-      />
+      <label>{label}</label>
 
-      <p>You typed: {name}</p>
+      <input
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 }
