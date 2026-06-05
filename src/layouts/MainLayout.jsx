@@ -8,7 +8,9 @@ export default function MainLayout() {
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
-        <Link to="/single-input">Single Input</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/Dashboard">Dashboard</Link>
+        {/*<Link to="/single-input">Single Input</Link>*/}
       </nav>
 
       <hr />

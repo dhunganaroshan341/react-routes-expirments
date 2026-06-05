@@ -5,23 +5,29 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import SingleInput from "./components/SingleInput";
 
-function App() {
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+
+export default function App() {
   return (
     <Routes>
-      {/* Layout Route */}
+
+      {/* PUBLIC LAYOUT */}
       <Route path="/" element={<MainLayout />}>
-        
-        {/* Nested routes */}
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="single-input" element={<SingleInput />} />
-
       </Route>
+
+      {/* AUTH PAGES */}
+      <Route path="/login" element={<Login />} />
+
+      {/* DASHBOARD AREA */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/profile" element={<Profile />} />
+
     </Routes>
   );
 }
-
-export default App;
